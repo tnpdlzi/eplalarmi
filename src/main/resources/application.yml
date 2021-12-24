@@ -1,0 +1,27 @@
+spring:
+
+  redis:
+    host: localhost
+    password:
+    port: 6379
+    pool:
+      max-idle: 8
+      min-idle: 0
+      max-activity: 8
+      max-wait: -1
+#
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/h2db/eplalarmi
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+logging:
+  level:
+    org.hibernate.SQL: debug
