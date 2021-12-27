@@ -19,9 +19,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+      jdbc.batch_size: 100
     properties:
       hibernate:
         format_sql: true
 logging:
   level:
     org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
