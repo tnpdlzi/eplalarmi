@@ -1,5 +1,6 @@
 package com.donggun.eplalarmi.redis.service;
 
+import com.donggun.eplalarmi.common.domain.EnglandPremierLeagueTeams;
 import com.donggun.eplalarmi.redis.dto.RedisDataDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,45 +15,10 @@ public class RedisSampleServiceTest {
 
     @Autowired
     RedisSampleService redisSampleService;
-
-    @Test
-    public void 레디스_키_받아오기() {
-        // given
-        String key1 = "test key1";
-        String key2 = "test key2";
-        String value1 = "test value1";
-        String value2 = "test value2";
-        redisSampleService.setRedisStringValue(key1, value1);
-        redisSampleService.setRedisStringValue(key2, value2);
-
-        // when
-        String redisStringValue1 = redisSampleService.getRedisStringValue(key1);
-        String redisStringValue2 = redisSampleService.getRedisStringValue(key2);
-
-        // then
-        assertThat(redisStringValue1).isEqualTo(value1);
-        assertThat(redisStringValue2).isEqualTo(value2);
-    }
-
-    @Test
-    public void 레디스_키_추가() {
-        // given
-        String key1 = "test key1";
-        String key2 = "test key2";
-        String value1 = "test value1";
-        String value2 = "test value2";
-
-        // when
-        redisSampleService.setRedisStringValue(key1, value1);
-        redisSampleService.setRedisStringValue(key2, value2);
-
-        // then
-        String redisStringValue1 = redisSampleService.getRedisStringValue(key1);
-        String redisStringValue2 = redisSampleService.getRedisStringValue(key2);
-
-        assertThat(redisStringValue1).isEqualTo(value1);
-        assertThat(redisStringValue2).isEqualTo(value2);
-    }
+    @Autowired
+    RedisMessagePublisher redisMessagePublisher;
+    @Autowired
+    RedisMessageSubscriber redisMessageSubscriber;
 
     @Test
     public void 레디스_아이템_소스_추가_가져오기() {
@@ -76,5 +42,19 @@ public class RedisSampleServiceTest {
         assertThat(redisItemAndSource1.getSourceId()).isEqualTo(source1);
         assertThat(redisItemAndSource2.getItemId()).isEqualTo(item2);
         assertThat(redisItemAndSource2.getSourceId()).isEqualTo(source2);
+    }
+
+    @Test
+    public void 레디스_메시지_전송() {
+        // given
+        String source = "sourceTOT";
+        String item = "itemTOT";
+        String source2 = "sourceTOT2";
+        String item2 = "itemTOT2";
+
+        // when
+        redisMessagePublisher.sendDtoMessage(EnglandPremierLeagueTeams.TOTTENHAM.getTeamAbbr(), source, item);
+        redisMessagePublisher.sendDtoMessage(EnglandPremierLeagueTeams.TOTTENHAM.getTeamAbbr(), source2, item2);
+
     }
 }
